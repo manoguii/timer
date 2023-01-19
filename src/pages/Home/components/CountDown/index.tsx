@@ -1,9 +1,16 @@
 import { differenceInSeconds } from 'date-fns'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
+import { CyclesContext } from '../..'
 import { CountDownContainer, Separator } from './styles'
 
 export function CountDown() {
-  const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
+  const {
+    activeCycle,
+    activeCycleId,
+    markCurrentCycleAsFinished,
+    amountSecondsPassed,
+    setAmountSecondsPassed,
+  } = useContext(CyclesContext)
 
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
 
@@ -17,20 +24,7 @@ export function CountDown() {
           activeCycle.startDate,
         )
         if (secondsdifference >= totalSeconds) {
-          setCycles((state) => {
-            return state.map((cycle) => {
-              if (cycle.id === activeCycleId) {
-                setActiveCycleId(null)
-
-                return {
-                  ...cycle,
-                  finishedDate: new Date(),
-                }
-              } else {
-                return cycle
-              }
-            })
-          })
+          markCurrentCycleAsFinished()
 
           setAmountSecondsPassed(totalSeconds)
 
@@ -44,7 +38,28 @@ export function CountDown() {
     return () => {
       clearInterval(interval)
     }
-  }, [activeCycle, totalSeconds, activeCycleId, cycles])
+  }, [
+    activeCycle,
+    totalSeconds,
+    activeCycleId,
+    markCurrentCycleAsFinished,
+    setAmountSecondsPassed,
+  ])
+
+  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
+
+  const minutesAmount = Math.floor(currentSeconds / 60)
+  const secondsAmount = currentSeconds % 60
+
+  // faz com que o minutesAmount e o secondsAmount tenha sempre dois caracteres se não adiciona um zero 0
+  const minutes = String(minutesAmount).padStart(2, '0')
+  const seconds = String(secondsAmount).padStart(2, '0')
+
+  useEffect(() => {
+    if (activeCycle) {
+      document.title = `${minutes}:${seconds}`
+    }
+  }, [minutes, seconds, activeCycle])
 
   return (
     <CountDownContainer>
