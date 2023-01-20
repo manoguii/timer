@@ -51,7 +51,7 @@ export function CountDown() {
   const minutesAmount = Math.floor(currentSeconds / 60)
   const secondsAmount = currentSeconds % 60
 
-  // faz com que o minutesAmount e o secondsAmount tenha sempre dois caracteres se não adiciona um zero 0
+  // faz com que o minutesAmount e o secondsAmount tenha sempre dois caracteres, se não adiciona um zero 0
   const minutes = String(minutesAmount).padStart(2, '0')
   const seconds = String(secondsAmount).padStart(2, '0')
 

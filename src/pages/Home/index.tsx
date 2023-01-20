@@ -16,7 +16,7 @@ interface INewCycleFormData {
 }
 
 export function Home() {
-  const { createNewCycle, interruptedCycle, activeCycle } =
+  const { createNewCycle, interruptCycle, activeCycle } =
     useContext(CyclesContext)
 
   const Form = useForm<INewCycleFormData>({
@@ -46,7 +46,7 @@ export function Home() {
         <CountDown />
 
         {activeCycle ? (
-          <StopCountDownButton onClick={interruptedCycle} type="button">
+          <StopCountDownButton onClick={interruptCycle} type="button">
             <HandPalm size={24} />
             Interromper
           </StopCountDownButton>

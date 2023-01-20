@@ -56,7 +56,6 @@ export const HistoryList = styled.div`
       }
 
       &:last-child {
-        border-top: 2px solid ${(props) => props.theme['gray-800']};
         padding-right: 1.5rem;
       }
     }
@@ -73,7 +72,7 @@ interface StatusProps {
   statusColor: keyof typeof STATUS_COLOR
 }
 
-export const Status = styled.td<StatusProps>`
+export const Status = styled.span<StatusProps>`
   display: flex;
   align-items: center;
   gap: 0.5rem;
