@@ -9,7 +9,7 @@
 </p>
 
 <div align="left">
-  <img src="assets/timer.png" alt="faladev" >
+  <img src="public/timer.png" alt="faladev" >
 </div>
 
 ## Instalação

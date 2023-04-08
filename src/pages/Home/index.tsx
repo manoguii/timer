@@ -1,14 +1,14 @@
 import { HandPalm, Play } from 'phosphor-react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { NewCycleForm } from './components/NewCycleForm'
+import { CountDown } from './components/CountDown'
+import { useContext } from 'react'
+import { CyclesContext } from '../../contexts/CyclesContext'
 import {
   HomeContainer,
   StartCountDownButton,
   StopCountDownButton,
 } from './styles'
-import { NewCycleForm } from './components/NewCycleForm'
-import { CountDown } from './components/CountDown'
-import { useContext } from 'react'
-import { CyclesContext } from '../../contexts/CyclesContext'
 
 interface INewCycleFormData {
   minutesAmount: number
@@ -36,6 +36,8 @@ export function Home() {
 
   const task = watch('task')
 
+  const isSubmitDisabled = !task
+
   return (
     <HomeContainer>
       <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
@@ -51,7 +53,7 @@ export function Home() {
             Interromper
           </StopCountDownButton>
         ) : (
-          <StartCountDownButton disabled={!task} type="submit">
+          <StartCountDownButton disabled={isSubmitDisabled} type="submit">
             <Play size={24} />
             Começar
           </StartCountDownButton>
