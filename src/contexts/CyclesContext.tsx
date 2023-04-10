@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { differenceInSeconds } from 'date-fns'
+import { v4 as uuidV4 } from 'uuid'
+import { cyclesReducer, ICycle } from '../reducers/cycles'
 import React, {
   createContext,
   ReactNode,
@@ -6,8 +9,6 @@ import React, {
   useReducer,
   useState,
 } from 'react'
-import { v4 as uuidV4 } from 'uuid'
-import { cyclesReducer, ICycle } from '../reducers/cycles'
 
 interface ICyclesContextProvider {
   children: ReactNode
