@@ -1,6 +1,6 @@
-import { ActionTypes } from '../contexts/CyclesContext'
+import { ActionTypes } from './actions'
 
-export interface ICycle {
+export interface Cycle {
   id: string
   task: string
   minutesAmount: number
@@ -9,12 +9,12 @@ export interface ICycle {
   finishedDate?: Date
 }
 
-interface ICyclesState {
-  cycles: ICycle[]
+interface CyclesState {
+  cycles: Cycle[]
   activeCycleId: string | null
 }
 
-export function cyclesReducer(state: ICyclesState, action: any) {
+export function cyclesReducer(state: CyclesState, action: any) {
   switch (action.type) {
     case ActionTypes.ADD_NEW_CYCLE:
       return {

@@ -10,7 +10,7 @@ import {
   StopCountDownButton,
 } from './styles'
 
-interface INewCycleFormData {
+interface NewCycleFormData {
   minutesAmount: number
   task: string
 }
@@ -19,7 +19,7 @@ export function Home() {
   const { createNewCycle, interruptCycle, activeCycle } =
     useContext(CyclesContext)
 
-  const Form = useForm<INewCycleFormData>({
+  const Form = useForm<NewCycleFormData>({
     defaultValues: {
       task: '',
       minutesAmount: 0,
@@ -28,7 +28,7 @@ export function Home() {
 
   const { handleSubmit, watch, reset } = Form
 
-  function handleCreateNewCycle(data: INewCycleFormData) {
+  function handleCreateNewCycle(data: NewCycleFormData) {
     createNewCycle(data)
 
     reset()

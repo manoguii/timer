@@ -58,6 +58,8 @@ export function CountDown() {
   useEffect(() => {
     if (activeCycle) {
       document.title = `${minutes}:${seconds}`
+    } else {
+      document.title = 'Timer | Home'
     }
   }, [minutes, seconds, activeCycle])
 
