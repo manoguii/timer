@@ -9,7 +9,7 @@ export function History() {
 
   return (
     <HistoryContainer>
-      <h1>Meu Historico</h1>
+      <h1>Meu Histórico</h1>
 
       <HistoryList>
         <table>
@@ -23,27 +23,29 @@ export function History() {
           </thead>
           {cycles.map((cycle) => {
             return (
-              <tr key={cycle.id}>
-                <td>{cycle.task}</td>
-                <td>{cycle.minutesAmount} minutos</td>
-                <td>
-                  {formatDistanceToNow(new Date(cycle.startDate), {
-                    addSuffix: true,
-                    locale: ptBR,
-                  })}
-                </td>
-                <td>
-                  {cycle.finishedDate && (
-                    <Status statusColor="green">Concluido</Status>
-                  )}
-                  {cycle.interruptedDate && (
-                    <Status statusColor="red">Interrompido</Status>
-                  )}
-                  {!cycle.finishedDate && !cycle.interruptedDate && (
-                    <Status statusColor="yellow">Em andamento</Status>
-                  )}
-                </td>
-              </tr>
+              <tbody key={cycle.id}>
+                <tr>
+                  <td>{cycle.task}</td>
+                  <td>{cycle.minutesAmount} minutos</td>
+                  <td>
+                    {formatDistanceToNow(new Date(cycle.startDate), {
+                      addSuffix: true,
+                      locale: ptBR,
+                    })}
+                  </td>
+                  <td>
+                    {cycle.finishedDate && (
+                      <Status statusColor="green">Concluído</Status>
+                    )}
+                    {cycle.interruptedDate && (
+                      <Status statusColor="red">Interrompido</Status>
+                    )}
+                    {!cycle.finishedDate && !cycle.interruptedDate && (
+                      <Status statusColor="yellow">Em andamento</Status>
+                    )}
+                  </td>
+                </tr>
+              </tbody>
             )
           })}
         </table>

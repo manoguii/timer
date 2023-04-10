@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { differenceInSeconds } from 'date-fns'
+import { v4 as uuidV4 } from 'uuid'
+import { cyclesReducer, Cycle } from '../reducers/cycles/reducer'
 import React, {
   createContext,
   ReactNode,
@@ -6,10 +9,14 @@ import React, {
   useReducer,
   useState,
 } from 'react'
-import { v4 as uuidV4 } from 'uuid'
-import { cyclesReducer, ICycle } from '../reducers/cycles'
+import {
+  ActionTypes,
+  addNewCycleAction,
+  interruptCycleAction,
+  markCurrentCycleAsFinishedAction,
+} from '../reducers/cycles/actions'
 
-interface ICyclesContextProvider {
+interface CyclesContextProviderProps {
   children: ReactNode
 }
 
@@ -18,9 +25,9 @@ interface ICreateCycle {
   minutesAmount: number
 }
 
-interface ICyclesContext {
-  cycles: ICycle[]
-  activeCycle: ICycle | undefined
+interface CyclesContextType {
+  cycles: Cycle[]
+  activeCycle: Cycle | undefined
   activeCycleId: string | null
   markCurrentCycleAsFinished: () => void
   amountSecondsPassed: number
@@ -29,15 +36,11 @@ interface ICyclesContext {
   setAmountSecondsPassed: React.Dispatch<React.SetStateAction<number>>
 }
 
-export enum ActionTypes {
-  ADD_NEW_CYCLE = 'ADD_NEW_CYCLE',
-  INTERRUPT_CYCLE = 'INTERRUPT_CYCLE',
-  MARK_CURRENT_CYCLE_AS_FINISHED = 'MARK_CURRENT_CYCLE_AS_FINISHED',
-}
+export const CyclesContext = createContext({} as CyclesContextType)
 
-export const CyclesContext = createContext({} as ICyclesContext)
-
-export function CyclesContextProvider({ children }: ICyclesContextProvider) {
+export function CyclesContextProvider({
+  children,
+}: CyclesContextProviderProps) {
   const [cyclesState, dispatch] = useReducer(
     cyclesReducer,
     {
@@ -77,39 +80,24 @@ export function CyclesContextProvider({ children }: ICyclesContextProvider) {
   }, [cyclesState])
 
   function markCurrentCycleAsFinished() {
-    dispatch({
-      type: ActionTypes.MARK_CURRENT_CYCLE_AS_FINISHED,
-      payload: {
-        activeCycleId,
-      },
-    })
+    dispatch(markCurrentCycleAsFinishedAction())
   }
 
   function createNewCycle(data: ICreateCycle) {
-    const newCycle: ICycle = {
+    const newCycle: Cycle = {
       id: uuidV4(),
       task: data.task,
       minutesAmount: data.minutesAmount,
       startDate: new Date(),
     }
 
-    dispatch({
-      type: ActionTypes.ADD_NEW_CYCLE,
-      payload: {
-        newCycle,
-      },
-    })
+    dispatch(addNewCycleAction(newCycle))
 
     setAmountSecondsPassed(0)
   }
 
   function interruptCycle() {
-    dispatch({
-      type: ActionTypes.INTERRUPT_CYCLE,
-      payload: {
-        activeCycleId,
-      },
-    })
+    dispatch(interruptCycleAction())
   }
 
   return (
